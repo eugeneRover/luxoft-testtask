@@ -5,15 +5,15 @@ import java.util.*;
 /**
  * Implemented on {@link PriceProcessor} requirements
  */
-public class PriceThrottler implements IdentifiedPriceProcessor {
+public class PriceThrottler extends IdentifiedPriceProcessor {
 
     private static final int SUBSCRIBERS_LIMIT = 200;
-    private final int id;
+
     private final Map<Integer, NotifierThread> subscriberNotifiers;//subscribers with their IDs
     private final Map<String,Double> ccyMap;//current rate values
 
     public PriceThrottler(int id) {
-        this.id = id;
+        super(id);
         this.subscriberNotifiers = Collections.synchronizedMap(new HashMap<>());
         this.ccyMap =  Collections.synchronizedMap(new HashMap<>());
     }
@@ -63,25 +63,5 @@ public class PriceThrottler implements IdentifiedPriceProcessor {
         }
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        PriceThrottler that = (PriceThrottler) o;
-        return id == that.id;
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
-
-    @Override
-    public int getId() {
-        return id;
-    }
 }
